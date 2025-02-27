@@ -6,7 +6,6 @@ from Crypto.Util.Padding import pad, unpad
 import base64
 import os
 
-# Konfigurasi UI
 ctk.set_appearance_mode("Dark")
 ctk.set_default_color_theme("blue")
 
@@ -26,7 +25,7 @@ class CryptoApp(ctk.CTk):
         self.text_crypto_ui()
         self.file_crypto_ui()
 
-    # =================== UI untuk Enkripsi & Dekripsi Teks ===================
+
     def text_crypto_ui(self):
         ctk.CTkLabel(self.text_tab, text="Masukkan Teks:").pack(pady=5)
         self.text_input = ctk.CTkEntry(self.text_tab, width=400)
@@ -45,7 +44,7 @@ class CryptoApp(ctk.CTk):
         self.result_label = ctk.CTkLabel(self.text_tab, text="Hasil akan muncul di sini")
         self.result_label.pack(pady=5)
 
-    # =================== UI untuk Enkripsi & Dekripsi File ===================
+
     def file_crypto_ui(self):
         ctk.CTkLabel(self.file_tab, text="Pilih file untuk enkripsi").pack(pady=5)
         ctk.CTkButton(self.file_tab, text="Pilih File", command=self.select_file).pack(pady=5)
@@ -62,13 +61,13 @@ class CryptoApp(ctk.CTk):
 
         self.selected_file = None
 
-    # =================== Fungsi Pemilihan File ===================
+
     def select_file(self):
         self.selected_file = filedialog.askopenfilename()
         if self.selected_file:
             messagebox.showinfo("File Dipilih", f"File: {self.selected_file}")
 
-    # =================== FUNGSI ENKRIPSI & DEKRIPSI TEKS ===================
+
     def encrypt_text(self):
         text = self.text_input.get()
         key = self.key_input.get()
@@ -93,7 +92,7 @@ class CryptoApp(ctk.CTk):
             result = self.xor_encrypt(text, key)
         self.result_label.configure(text=f"Hasil: {result}")
 
-    # =================== FUNGSI ENKRIPSI & DEKRIPSI FILE ===================
+
     def encrypt_file(self):
         if not self.selected_file:
             messagebox.showerror("Error", "Pilih file terlebih dahulu!")
@@ -149,15 +148,15 @@ class CryptoApp(ctk.CTk):
             messagebox.showerror("Error", "Dekripsi gagal! Kunci salah atau file rusak.")
             return
 
-        # Ambil ekstensi file asli
+
         ext_len = decrypted_data.find(b'.')
         if ext_len == -1:
             ext = b''
         else:
-            ext = decrypted_data[:ext_len+4]  # Maksimal 4 karakter ekstensi
+            ext = decrypted_data[:ext_len+4]  
             decrypted_data = decrypted_data[ext_len+4:]
 
-        # Tentukan lokasi penyimpanan dengan ekstensi asli
+   
         save_path = filedialog.asksaveasfilename(defaultextension=ext.decode(), filetypes=[("Original File", f"*{ext.decode()}")])
         if not save_path:
             return
